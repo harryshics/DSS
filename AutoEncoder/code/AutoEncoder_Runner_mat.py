@@ -8,13 +8,11 @@ Run auto encoder with .mat form input
 """
 
 import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
 from AutoEncoder import Autoencoder
 from scipy import io
 import Utils
 
-dataname = r'.\data\MNIST_70000n_784d_10c_full'
+dataname = r'.\data\MNIST_10000n_784d_10c_full'
 data = io.loadmat(dataname+'.mat')
 fea = data['fea']
 n_samples, n_features = fea.shape
@@ -27,7 +25,7 @@ autoencoder = Autoencoder(num_input = n_features,
                           act_func = tf.nn.relu,
                           optimizer = tf.train.RMSPropOptimizer(learning_rate = 0.01))
 
-training_epochs = 20
+training_epochs = 1000
 batch_size = 128
 display_step = 1
 examples_to_show = 10
