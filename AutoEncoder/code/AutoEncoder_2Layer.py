@@ -2,14 +2,14 @@
 """
 Created on Mon Jun 26 19:57:02 2017
 
-@author: dmg
+@author: Lei Shi
 
 A stacked auto-encoder with 2 hidden layer
 """
 
 import tensorflow as tf
 
-class Autoencoder_3Layer(object):
+class Autoencoder_2Layer(object):
     def __init__(self, num_input,num_hidden_1,num_hidden_2,num_hidden_3,act_func, optimizer = tf.train.AdamOptimizer()):
         # num_input: the dimension of the input data
         # num_hidden_1: the number of hidden units of the first layer
@@ -24,18 +24,15 @@ class Autoencoder_3Layer(object):
         weights = {
         'e_h1': tf.Variable(tf.random_normal([num_input,num_hidden_1])),
         'e_h2': tf.Variable(tf.random_normal([num_hidden_1,num_hidden_2])),
-        'd_h1': tf.Variable(tf.random_normal([num_hidden_3,num_hidden_2])),
-        'd_h2': tf.Variable(tf.random_normal([num_hidden_2,num_hidden_1])),
-        'd_h3': tf.Variable(tf.random_normal([num_hidden_1,num_input])),
+        'd_h1': tf.Variable(tf.random_normal([num_hidden_2,num_hidden_1])),
+        'd_h2': tf.Variable(tf.random_normal([num_hidden_1,num_input])),
                                                         }
                                                         
         biases = {
          'e_b1': tf.Variable(tf.random_normal([num_hidden_1])),
          'e_b2': tf.Variable(tf.random_normal([num_hidden_2])),
-         'e_b3': tf.Variable(tf.random_normal([num_hidden_3])),
-         'd_b1': tf.Variable(tf.random_normal([num_hidden_2])),
-         'd_b2': tf.Variable(tf.random_normal([num_hidden_1])),
-         'd_b3': tf.Variable(tf.random_normal([num_input])),
+         'd_b1': tf.Variable(tf.random_normal([num_hidden_1])),
+         'd_b2': tf.Variable(tf.random_normal([num_input])),
                   }
                                                         
         self.net_weights = weights
@@ -48,10 +45,8 @@ class Autoencoder_3Layer(object):
         self.x = tf.placeholder(tf.float32,[None,self.num_input])
         self.e_hidden_1 = self.act_func(tf.add(tf.matmul(self.x, self.net_weights['e_h1']),self.net_biases['e_b1']))
         self.e_hidden_2 = self.act_func(tf.add(tf.matmul(self.e_hidden_1,self.net_weights['e_h2']),self.net_biases['e_b2']))
-        self.e_hidden_3 = self.act_func(tf.add(tf.matmul(self.e_hidden_2,self.net_weights['e_h3']),self.net_biases['e_b3']))
-        self.d_hidden_1 = self.act_func(tf.add(tf.matmul(self.e_hidden_3,self.net_weights['d_h1']),self.net_biases['d_b1']))
-        self.d_hidden_2 = self.act_func(tf.add(tf.matmul(self.d_hidden_1,self.net_weights['d_h2']),self.net_biases['d_b2']))
-        self.reconstuction = self.act_func(tf.add(tf.matmul(self.d_hidden_2,self.net_weights['d_h3']),self.net_biases['d_b3']))
+        self.d_hidden_1 = self.act_func(tf.add(tf.matmul(self.e_hidden_2,self.net_weights['d_h1']),self.net_biases['d_b1']))
+        self.reconstuction = self.act_func(tf.add(tf.matmul(self.d_hidden_1,self.net_weights['d_h2']),self.net_biases['d_b2']))
         
         #loss
         self.loss = tf.reduce_mean(tf.pow(tf.subtract(self.reconstuction, self.x),2))
@@ -78,14 +73,14 @@ class Autoencoder_3Layer(object):
         
     # get the hidden representation of x
     def get_representation(self, x):
-        new_fea = self.sess.run(self.e_hidden_3, feed_dict = {self.x: x})
+        new_fea = self.sess.run(self.e_hidden_2, feed_dict = {self.x: x})
         return new_fea
         
     # generate a sample givan a hidden representation
     def generate_sample_from_hidden(self, hidden = None):
         if hidden is None:
-            hidden = self.sess.run(tf.random_normal([1, self.num_hidden_3]))
-        return self.sess.run(self.reconstuction, feed_dict={self.e_hidden_3: hidden})
+            hidden = self.sess.run(tf.random_normal([1, self.num_hidden_2]))
+        return self.sess.run(self.reconstuction, feed_dict={self.e_hidden_2: hidden})
         
     # get a reconstruction of an input image/data sample
     def reconstruct(self, x):

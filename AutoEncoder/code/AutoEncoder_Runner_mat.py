@@ -8,6 +8,7 @@ Run auto encoder with .mat form input
 """
 
 import tensorflow as tf
+from AutoEncoder_2Layer import Autoencoder_2Layer
 from AutoEncoder_3Layer import Autoencoder_3Layer
 from scipy import io
 import Utils
@@ -21,10 +22,9 @@ n_samples, n_features = fea.shape
 print("Number of Samples:", '%d' % n_samples, ", Number of Features:", '%d' % n_features)
 
 
-autoencoder = Autoencoder_3Layer(num_input = n_features,
+autoencoder = Autoencoder_2Layer(num_input = n_features,
                           num_hidden_1 = 256,
-                          num_hidden_2 = 256,
-                          num_hidden_3 = 128,
+                          num_hidden_2 = 128,
                           act_func = tf.nn.sigmoid,
                           optimizer = tf.train.RMSPropOptimizer(learning_rate = 0.001))
 
