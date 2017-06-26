@@ -11,3 +11,6 @@ def get_random_block_from_data(data, batch_size):
     n_samples, n_features = data.shape
     start_index = np.random.randint(0, n_samples - batch_size)
     return data[start_index:(start_index + batch_size)]
+                
+def get_block_from_data(data, batch_size, start_index):
+    return data[start_index:(start_index + batch_size)]

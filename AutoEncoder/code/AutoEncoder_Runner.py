@@ -12,7 +12,7 @@ from AutoEncoder import Autoencoder
 
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
-#batch_xs, batch_ys = mnist.train.next_batch(128)
+batch_xs, batch_ys = mnist.train.next_batch(128)
 
 autoencoder = Autoencoder(num_input = 784,
                           num_hidden_1 = 256,
@@ -36,10 +36,10 @@ for epoch in range(training_epochs):
             
 print("Opt Done!")
 
-image_reconstruction = autoencoder.reconstruct(mnist.train.images[:examples_to_show])
+image_reconstruction = autoencoder.reconstruct(mnist.test.images[:examples_to_show])
 f, a = plt.subplots(2, 10, figsize=(10, 2))
 for i in range(examples_to_show):
-    a[0][i].imshow(np.reshape(mnist.train.images[i], (28, 28)))
+    a[0][i].imshow(np.reshape(mnist.test.images[i], (28, 28)))
     a[1][i].imshow(np.reshape(image_reconstruction[i], (28, 28)))
 f.show()
 plt.draw()
