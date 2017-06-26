@@ -6,7 +6,8 @@ Created on Fri Jun 16 10:06:11 2017
 
 Run auto encoder with .mat form input
 """
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import tensorflow as tf
 from AutoEncoder_2Layer import Autoencoder_2Layer
 from AutoEncoder_3Layer import Autoencoder_3Layer

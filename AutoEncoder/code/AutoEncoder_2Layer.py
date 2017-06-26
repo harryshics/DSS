@@ -10,7 +10,7 @@ A stacked auto-encoder with 2 hidden layer
 import tensorflow as tf
 
 class Autoencoder_2Layer(object):
-    def __init__(self, num_input,num_hidden_1,num_hidden_2,num_hidden_3,act_func, optimizer = tf.train.AdamOptimizer()):
+    def __init__(self, num_input,num_hidden_1,num_hidden_2,act_func, optimizer = tf.train.AdamOptimizer()):
         # num_input: the dimension of the input data
         # num_hidden_1: the number of hidden units of the first layer
         # num_hidden_2: the number of hidden units of the second layer

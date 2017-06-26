@@ -4,17 +4,18 @@ Created on Thu Jun 15 16:55:52 2017
 
 @author: Harry Shi
 """
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from AutoEncoder import Autoencoder
+from AutoEncoder_2Layer import Autoencoder_2Layer
 
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data", one_hot=True)
 batch_xs, batch_ys = mnist.train.next_batch(128)
 
-autoencoder = Autoencoder(num_input = 784,
+autoencoder = Autoencoder_2Layer(num_input = 784,
                           num_hidden_1 = 256,
                           num_hidden_2 = 128,
                           act_func = tf.nn.sigmoid,
