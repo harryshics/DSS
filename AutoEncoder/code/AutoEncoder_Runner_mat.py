@@ -12,7 +12,7 @@ from AutoEncoder import Autoencoder
 from scipy import io
 import Utils
 
-dataname = r'.\data\MNIST_10000n_784d_10c_full'
+dataname = r'..\data\MNIST_10000n_784d_10c_full'
 data = io.loadmat(dataname+'.mat')
 fea = data['fea']
 n_samples, n_features = fea.shape
@@ -23,7 +23,7 @@ autoencoder = Autoencoder(num_input = n_features,
                           num_hidden_1 = 256,
                           num_hidden_2 = 128,
                           act_func = tf.nn.relu,
-                          optimizer = tf.train.RMSPropOptimizer(learning_rate = 0.01))
+                          optimizer = tf.train.RMSPropOptimizer(learning_rate = 0.001))
 
 training_epochs = 1000
 batch_size = 128
@@ -51,4 +51,4 @@ print("Opt Done!")
 #plt.waitforbuttonpress()
 
 fea_new = autoencoder.get_representation(fea)
-io.savemat(dataname+'_feanew.mat',{'fea':fea_new,'gnd':data['gnd']})
+io.savemat(dataname+'_feanew_3.mat',{'fea':fea_new,'gnd':data['gnd']})
